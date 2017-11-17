@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fillViewport="false"
+    android:scrollbarStyle="insideOverlay">
+
+    <RelativeLayout
+        android:layout_width="350dp"
+        android:layout_height="350dp">
+
+        <ImageButton
+            android:id="@+id/btnCatAvatar"
+            style="@android:style/Widget.ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="17dp"
+            app:srcCompat="@drawable/cat_avatar" />
+
+        <ImageButton
+            android:id="@+id/btnChickenAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/btnCatAvatar"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/chicken_avatar" />
+
+        <ImageButton
+            android:id="@+id/btnCowAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btnChickenAvatar"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="11dp"
+            app:srcCompat="@drawable/cow_avatar" />
+
+        <ImageButton
+            android:id="@+id/btnDeerAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/btnCatAvatar"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/deer_avatar" />
+
+        <ImageButton
+            android:id="@+id/btnDogAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/dog_avatar" />
+
+        <ImageButton
+            android:id="@+id/btnFoxAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/btnCowAvatar"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            app:srcCompat="@drawable/fox_avatar" />
+
+        <ImageButton
+            android:id="@+id/btnMonkeyAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/btnDeerAvatar"
+            android:layout_below="@+id/btnDeerAvatar"
+            android:layout_marginTop="150dp"
+            app:srcCompat="@drawable/monkey_avatar" />
+
+        <ImageButton
+            android:id="@+id/btnPandaAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/btnDogAvatar"
+            android:layout_alignTop="@+id/btnMonkeyAvatar"
+            app:srcCompat="@drawable/panda_avatar" />
+
+        <ImageButton
+            android:id="@+id/btnPigAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/btnCowAvatar"
+            android:layout_alignTop="@+id/btnPandaAvatar"
+            app:srcCompat="@drawable/pig_avatar" />
+
+
+    </RelativeLayout>
+
+</ScrollView>
