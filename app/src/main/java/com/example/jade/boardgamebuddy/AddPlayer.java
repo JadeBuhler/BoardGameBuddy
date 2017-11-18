@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -19,8 +20,9 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
     Button btnChooseAvatar;
     Button btnOk;
     Button btnCancel;
-    AvatarDialogFragment avatarFrag;
     Button userAvatar;
+    EditText playerName;
+    DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,13 +35,17 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
         setSupportActionBar(appBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        // Find the user avatar image from the tool bar.
+        userAvatar = (Button)findViewById(R.id.userAvatar);
+
         // Find the choose avatar, ok and cancel buttons.
         btnChooseAvatar = (Button)findViewById(R.id.btnChooseAvatar);
         btnOk = (Button)findViewById(R.id.btnOk);
         btnCancel = (Button)findViewById(R.id.btnCancel);
+        playerName = (EditText)findViewById(R.id.edtPlayerName);
 
-        // Find the user avatar image from the tool bar.
-        userAvatar = (Button)findViewById(R.id.userAvatar);
+        // Instantiate the database helper.
+        dbHelper = new DatabaseHelper(this);
 
         // When the choose avatar button is clicked open a custom dialog fragment.
         btnChooseAvatar.setOnClickListener(new View.OnClickListener()
@@ -48,7 +54,7 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
             public void onClick(View view)
             {
                 // Open the avatar fragment and allow the user to choose an avatar.
-                avatarFrag = new AvatarDialogFragment();
+                AvatarDialogFragment avatarFrag = new AvatarDialogFragment();
                 avatarFrag.show(getFragmentManager(), "Avatar Fragment");
 
                 // Placeholder toast.
@@ -67,12 +73,22 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
                 finish();
             }
         });
+
+        btnOk.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                saveContentValues(v);
+                finish();
+            }
+        });
     }
 
-    @Override
-    protected void onResume()
+    public void saveContentValues(View view)
     {
-        super.onResume();
+        // Insert the player name from the edit text field into the database.
+        dbHelper.insertValues(playerName.getText().toString());
     }
 
     @Override
