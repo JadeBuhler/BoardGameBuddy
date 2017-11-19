@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,4 +9,29 @@
 
     <include layout="@layout/toolbar"/>
 
-</android.support.constraint.ConstraintLayout>
+    <EditText
+        android:id="@+id/edtSearchGames"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="52dp"
+        android:inputType="text"
+        android:text="Enter game name here" />
+
+    <Spinner
+        android:id="@+id/spBoardGames"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edtSearchGames"
+        android:layout_marginTop="47dp" />
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/edtSearchGames"
+        android:layout_toEndOf="@+id/edtSearchGames"
+        android:background="@drawable/search" />
+
+</RelativeLayout>

@@ -1,6 +1,8 @@
 package com.example.jade.boardgamebuddy;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,8 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 import java.util.Map;
@@ -19,9 +25,10 @@ import java.util.Map;
 public class MainActivity extends BaseActivity
 {
     Button btnAdd;
+    TextView txtDefault;
     ListView lvPlayers;
     DatabaseHelper dbHelper;
-    Button btnTest;
+    Button userAva;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,13 +41,30 @@ public class MainActivity extends BaseActivity
         setSupportActionBar(appBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        userAva = (Button)findViewById(R.id.userAvatar);
+
         //Instantiate the add button.
         btnAdd = (Button)findViewById(R.id.btnAdd);
+        txtDefault = (TextView)findViewById(R.id.txtDefault);
 
         // Instantiate the players list view.
         lvPlayers = (ListView)findViewById(R.id.lvPlayers);
 
-        btnTest = findViewById(R.id.btnTest);
+        dbHelper = new DatabaseHelper(this);
+
+        // Hide the players list view.
+        lvPlayers.setVisibility(View.GONE);
+
+        // If the players table has data hide the default text view and display the players list
+        // view.
+        if (tableHasData("Players"))
+        {
+            txtDefault.setVisibility(View.GONE);
+            lvPlayers.setVisibility(View.VISIBLE);
+
+            // Load the player data into the list view.
+            loadData();
+        }
 
         btnAdd.setOnClickListener(new View.OnClickListener()
         {
@@ -52,19 +76,6 @@ public class MainActivity extends BaseActivity
                 startActivityForResult(intent, 0);
             }
         });
-
-        dbHelper = new DatabaseHelper(this);
-
-        btnTest.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                loadData();
-            }
-        });
-
-        loadData();
 
     }
 
@@ -78,7 +89,17 @@ public class MainActivity extends BaseActivity
     protected void onResume()
     {
         super.onResume();
-        loadData();
+
+        // If the players table has data hide the default text view and display the players list
+        // view.
+        if (tableHasData("Players"))
+        {
+            txtDefault.setVisibility(View.GONE);
+            lvPlayers.setVisibility(View.VISIBLE);
+
+            // Load the player data into the list view.
+            loadData();
+        }
     }
 
     @Override
@@ -102,6 +123,34 @@ public class MainActivity extends BaseActivity
 
         //assign the adapter to the
         lvPlayers.setAdapter(lstAdapter);
+    }
+
+    // This method will check a given database table and determine if that table has any data.
+    //
+    //
+    // Params: String tableName: The table to be checked for data.
+    //
+    // Returns: True if the table contains any data, false otherwise.
+    public boolean tableHasData(String tableName)
+    {
+       SQLiteDatabase db = dbHelper.getReadableDatabase();
+       Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " +tableName, null);
+
+       if (cursor != null)
+       {
+           cursor.moveToFirst();
+
+           int count = cursor.getInt(0);
+
+           if (count > 0)
+           {
+               return true;
+           }
+
+           cursor.close();
+       }
+
+       return false;
     }
 
 }

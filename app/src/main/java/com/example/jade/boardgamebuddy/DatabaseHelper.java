@@ -22,17 +22,16 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final String DB_NAME = "BoardGameBuddy";
     private static final String PLAYER_TABLE = "Players";
     private static final String GAMES_TABLE = "Games";
+    private static final String PLAYER_COL_IMAGE = "Image";
     private static final String PLAYER_COL_NAME = "Name";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
 
     // Define constants for creating each table.
-//    private static final String PLAYER_TABLE_CREATE =
-//            "CREATE TABLE " + PLAYER_TABLE + " (" +
-//                    PLAYER_COL_NAME + "TEXT NOT NULL);";
 
     private static final String PLAYER_TABLE_CREATE =
             "CREATE TABLE " + PLAYER_TABLE + " (" +
-                    PLAYER_COL_NAME + " STRING NOT NULL);";
+                    PLAYER_COL_NAME + " STRING NOT NULL, " +
+                     PLAYER_COL_IMAGE + " STRING NOT NULL);";
 
     // Define constants for dropping each table.
     private static final String DROP_PLAYER_TABLE = "DROP TABLE IF EXISTS " + PLAYER_TABLE;
@@ -58,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         onCreate(db);
     }
 
-    public void insertValues(String name)
+    public void insertValues(String name, String image)
     {
         // Get an instance of the writable database.
         SQLiteDatabase db = this.getWritableDatabase();
@@ -68,6 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
         // Add the player name to the content values.
         insertValues.put(PLAYER_COL_NAME, name);
+        insertValues.put(PLAYER_COL_IMAGE, image);
 
         // Insert the player name into the database.
         db.insert(PLAYER_TABLE, null, insertValues);
@@ -86,7 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
 
         //create an array of the table names
-        String[] selection = {PLAYER_COL_NAME};
+        String[] selection = {PLAYER_COL_NAME, PLAYER_COL_IMAGE};
 
         //Create a cursor item for querying the database
         Cursor c = db.query(PLAYER_TABLE,	//The name of the table to query
@@ -128,7 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
 
         //create an array of the table names
-        String[] selection = {PLAYER_COL_NAME};
+        String[] selection = {PLAYER_COL_NAME, PLAYER_COL_IMAGE};
 
         //Create a cursor item for querying the database
         Cursor c = db.query(PLAYER_TABLE,	//The name of the table to query

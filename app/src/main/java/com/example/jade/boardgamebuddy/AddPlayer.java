@@ -58,7 +58,7 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
                 avatarFrag.show(getFragmentManager(), "Avatar Fragment");
 
                 // Placeholder toast.
-                Toast.makeText(AddPlayer.this, "Hello", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddPlayer.this, userAvatar.getBackground().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -88,7 +88,7 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
     public void saveContentValues(View view)
     {
         // Insert the player name from the edit text field into the database.
-        dbHelper.insertValues(playerName.getText().toString());
+        dbHelper.insertValues(playerName.getText().toString(), userAvatar.getBackground().toString());
     }
 
     @Override
