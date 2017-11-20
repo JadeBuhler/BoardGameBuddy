@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="?android:attr/listPreferredItemHeight"
+android:padding="6dip"
+android:orientation="horizontal">
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/txtName"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingLeft="20dp"
-    android:textAlignment="center"
-    android:textSize="24sp"
-    android:textStyle="bold"/>
+    <ImageView
+        android:id="@+id/userAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:src="@drawable/monkey_avatar" />
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="0dip"
+    android:layout_weight="1"
+    android:layout_height="fill_parent">
+
+    <TextView
+        android:id="@+id/txtPlayerName"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:textSize="20sp" />
+
+    <!--<Button
+        android:id="@+id/btnListItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ClickME!"/>-->
+</LinearLayout>
+</LinearLayout>

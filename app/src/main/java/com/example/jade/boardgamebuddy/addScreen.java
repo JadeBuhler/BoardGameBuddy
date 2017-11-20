@@ -10,6 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+/*
+ *
+ * Accidentally named this activity using lower camel case. It will haunt me forever.
+ *
+ */
 public class addScreen extends BaseActivity
 {
     Button btnAddPlayer;

@@ -77,8 +77,14 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
     }
 
-    //Load the data in the table
-    public ArrayList<String> loadData(){
+    /*
+     * This method loads data from the Players table in the database and inserts the retrieved
+     * data into an array list.
+     *
+     * Returns: An array list containing players names and avatar images.
+     */
+    public ArrayList<String> loadData()
+    {
 
         ArrayList<String> nameData = new ArrayList<String>();
 
