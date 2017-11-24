@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -294,6 +295,34 @@ public class MainActivity extends BaseActivity
     }
 
     //endregion
+
+    public void showListOptions(View view)
+    {
+        PopupMenu menu = new PopupMenu(this, view);
+
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+        {
+            @Override
+            public boolean onMenuItemClick(MenuItem item)
+            {
+                int id = item.getItemId();
+
+                switch(id)
+                {
+                    case R.id.edit:
+                        break;
+                    case R.id.delete:
+                        break;
+                    case R.id.stats:
+                        break;
+                }
+                return true;
+            }
+        });
+
+        menu.inflate(R.menu.list_options);
+        menu.show();
+    }
 
 }
 
