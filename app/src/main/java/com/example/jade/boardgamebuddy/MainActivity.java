@@ -2,10 +2,12 @@ package com.example.jade.boardgamebuddy;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +44,8 @@ public class MainActivity extends BaseActivity
     private Button btnAdd;
     private TextView txtDefault;
     private Button userAva;
+    private SharedPreferences preferences;
+    private Typeface typeFace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,6 +59,9 @@ public class MainActivity extends BaseActivity
         Toolbar appBar = (Toolbar)findViewById(R.id.appBar);
         setSupportActionBar(appBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        // Instantiate the shared preferences
+        preferences = getSharedPreferences("main_prefs", MODE_PRIVATE);
 
         userAva = (Button)findViewById(R.id.userAvatar);
         btnAdd = (Button)findViewById(R.id.btnAdd);
@@ -100,6 +107,8 @@ public class MainActivity extends BaseActivity
     protected void onResume()
     {
         super.onResume();
+
+        typeFace = typeFace.create(preferences.getString("fontFamily", "monospace"), Typeface.NORMAL);
 
         // If the players table has data hide the default text view and display the players list
         // view.
@@ -244,6 +253,10 @@ public class MainActivity extends BaseActivity
                 if (txtPlayerName != null)
                 {
                     txtPlayerName.setText(player.getName());
+                    txtPlayerName.setTypeface(typeFace);
+                    txtPlayerName.setTextSize(Integer.valueOf(preferences.getString("fontSize",
+                            "14"
+                            )));
                     //userAvatar.setImageBitmap(BitmapFactory.decodeFile(player.getAvatar()));;
                 }
             }

@@ -1,5 +1,8 @@
 package com.example.jade.boardgamebuddy;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -11,9 +14,9 @@ import android.view.MenuItem;
 
 public class BaseActivity extends AppCompatActivity
 {
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
@@ -40,6 +43,8 @@ public class BaseActivity extends AppCompatActivity
         {
             case R.id.settings:
                 // Open settings activity
+                Intent intent = new Intent(BaseActivity.this, Settings.class);
+                startActivity(intent);
                 break;
             case R.id.about:
                 // Open about activity

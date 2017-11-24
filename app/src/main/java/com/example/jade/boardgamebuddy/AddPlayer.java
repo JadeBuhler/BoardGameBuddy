@@ -1,6 +1,9 @@
 package com.example.jade.boardgamebuddy;
 
 import android.app.DialogFragment;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,17 +15,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 
 public class AddPlayer extends BaseActivity implements AvatarDialogListener
 {
-    Button btnChooseAvatar;
-    Button btnOk;
-    Button btnCancel;
-    Button userAvatar;
-    EditText playerName;
-    DatabaseHelper dbHelper;
+    private Button btnChooseAvatar;
+    private Button btnOk;
+    private Button btnCancel;
+    private Button userAvatar;
+    private EditText playerName;
+    private Switch defaultPlayer;
+    private DatabaseHelper dbHelper;
+    private SharedPreferences preferences;
+    private Typeface typeface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,6 +42,9 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
         setSupportActionBar(appBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        // Instantiate the shared preferences
+        preferences = getSharedPreferences("main_prefs", MODE_PRIVATE);
+
         // Find the user avatar image from the tool bar.
         userAvatar = (Button)findViewById(R.id.userAvatar);
 
@@ -43,6 +53,7 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
         btnOk = (Button)findViewById(R.id.btnOk);
         btnCancel = (Button)findViewById(R.id.btnCancel);
         playerName = (EditText)findViewById(R.id.edtPlayerName);
+        defaultPlayer = (Switch)findViewById(R.id.swDefaultPlayer);
 
         // Instantiate the database helper.
         dbHelper = new DatabaseHelper(this);
@@ -81,8 +92,21 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
             {
                 saveContentValues(v);
                 finish();
+                Intent intent = new Intent(AddPlayer.this, MainActivity.class);
+                startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        typeface = typeface.create(preferences.getString("fontFamily", "serif"), Typeface.NORMAL);
+
+        defaultPlayer.setTypeface(typeface);
+        defaultPlayer.setTextSize(Integer.valueOf(preferences.getString("fontSize", "12")));
     }
 
     public void saveContentValues(View view)

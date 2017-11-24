@@ -19,7 +19,8 @@
         <activity android:name=".addScreen" />
         <activity android:name=".BaseActivity" />
         <activity android:name=".AddPlayer" />
-        <activity android:name=".AddGame"></activity>
+        <activity android:name=".AddGame" />
+        <activity android:name=".Settings"></activity>
     </application>
 
 </manifest>

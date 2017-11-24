@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jade.boardgamebuddy.Settings">
+
+    <include layout="@layout/toolbar"/>
+
+    <TextView
+        android:id="@+id/txtShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="132dp"
+        android:text="Show:"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/txtShow"
+        android:layout_marginStart="30dp"
+        android:layout_toEndOf="@+id/txtShow"
+        android:id="@+id/radioGroup3">
+
+        <RadioButton
+            android:id="@+id/rdbPlayers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Players" />
+
+        <RadioButton
+            android:id="@+id/rdbGames"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Games" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/txtFontSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtShow"
+        android:layout_below="@+id/txtShow"
+        android:layout_marginTop="56dp"
+        android:text="Font Size:"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spFontSize"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/txtFontSize"
+        android:layout_marginStart="18dp"
+        android:layout_toEndOf="@+id/txtFontSize" />
+
+    <TextView
+        android:id="@+id/txtFontFamily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtFontSize"
+        android:layout_marginTop="37dp"
+        android:layout_toStartOf="@+id/spFontSize"
+        android:text="Font Family:"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spFontFamily"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/spFontSize"
+        android:layout_alignTop="@+id/txtFontFamily" />
+
+
+</RelativeLayout>
