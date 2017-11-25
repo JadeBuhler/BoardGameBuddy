@@ -16,15 +16,12 @@
         android:elevation="4dp"
         android:theme="@style/AppTheme">
 
-
-        <Button
+        <ImageView
             android:id="@+id/userAvatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:background="@mipmap/default_user" />
+            app:srcCompat="@mipmap/default_user_round" />
     </android.support.v7.widget.Toolbar>
-
-    />
 </RelativeLayout>

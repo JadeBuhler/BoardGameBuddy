@@ -5,7 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,14 +29,14 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final String GAMES_TABLE = "Games";
     private static final String PLAYER_COL_IMAGE = "Image";
     private static final String PLAYER_COL_NAME = "Name";
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
 
     // Define constants for creating each table.
 
     private static final String PLAYER_TABLE_CREATE =
             "CREATE TABLE " + PLAYER_TABLE + " (" +
                     PLAYER_COL_NAME + " STRING NOT NULL, " +
-                     PLAYER_COL_IMAGE + " STRING NOT NULL);";
+                     PLAYER_COL_IMAGE + " BLOB NOT NULL);";
 
     // Define constants for dropping each table.
     private static final String DROP_PLAYER_TABLE = "DROP TABLE IF EXISTS " + PLAYER_TABLE;
@@ -57,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         onCreate(db);
     }
 
-    public void insertValues(String name, String image)
+    public void insertValues(String name, Bitmap image)
     {
         // Get an instance of the writable database.
         SQLiteDatabase db = this.getWritableDatabase();
@@ -65,9 +70,14 @@ public class DatabaseHelper extends SQLiteOpenHelper
         // Create an instance of ContentValues to add to the database.
         ContentValues insertValues = new ContentValues();
 
+        // Turn the passed in Bitmap image into a byte array
+        byte[] imageData = getBitmapAsByteArray(image);
+
         // Add the player name to the content values.
         insertValues.put(PLAYER_COL_NAME, name);
-        insertValues.put(PLAYER_COL_IMAGE, image);
+        insertValues.put(PLAYER_COL_IMAGE, imageData);
+
+        Log.d("jalaka:", imageData.toString());
 
         // Insert the player name into the database.
         db.insert(PLAYER_TABLE, null, insertValues);
@@ -83,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
      *
      * Returns: An array list containing players names and avatar images.
      */
-    public ArrayList<String> loadData()
+    public ArrayList<String> loadNames()
     {
 
         ArrayList<String> nameData = new ArrayList<String>();
@@ -92,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
 
         //create an array of the table names
-        String[] selection = {PLAYER_COL_NAME, PLAYER_COL_IMAGE};
+        String[] selection = {PLAYER_COL_NAME};
 
         //Create a cursor item for querying the database
         Cursor c = db.query(PLAYER_TABLE,	//The name of the table to query
@@ -123,18 +133,15 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return nameData;
     }
 
-    //Load the data in the table
-    //This method is used to load the data from the table into a hash map
-    //this enables the use of multiple textviews in the listview
-    public List<Map<String,String>> loadData2()
+    public ArrayList<Bitmap> loadAvatars()
     {
-        List<Map<String,String>> lm = new ArrayList<Map<String,String>>();
+        ArrayList<Bitmap> avatarData = new ArrayList<Bitmap>();
 
-        //open the readable database
+        // Open the readable database
         SQLiteDatabase db = this.getReadableDatabase();
 
         //create an array of the table names
-        String[] selection = {PLAYER_COL_NAME, PLAYER_COL_IMAGE};
+        String[] selection = {PLAYER_COL_IMAGE};
 
         //Create a cursor item for querying the database
         Cursor c = db.query(PLAYER_TABLE,	//The name of the table to query
@@ -145,18 +152,20 @@ public class DatabaseHelper extends SQLiteOpenHelper
                 null,				//Filter the row groups
                 null);				//The sort order
 
-        //Move to the first row
+        // Move to the first row
         c.moveToFirst();
 
-        //For each row that was retrieved
+        // For each row that was retrieved
         for(int i=0; i < c.getCount(); i++)
         {
-            Map<String,String> map = new HashMap<String,String>();
+            // Get the image blob from the database and set it as a byte
+            byte[] imgData = c.getBlob(0);
 
-            //assign the value to the corresponding array
-            map.put("Name", c.getString(0));
+            // Decode the byte into a bitmap and add it to the bitmap array list
+            Bitmap bitmapImage = BitmapFactory.decodeByteArray(imgData, 0, imgData.length);
 
-            lm.add(map);
+            avatarData.add(bitmapImage);
+
             c.moveToNext();
         }
 
@@ -166,7 +175,17 @@ public class DatabaseHelper extends SQLiteOpenHelper
         //close the database
         db.close();
 
-        return lm;
+        return avatarData;
+    }
 
+    /*
+     * This method takes in a bitmap image and converts it to a byte array.
+     *
+     */
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap)
+    {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+        return outputStream.toByteArray();
     }
 }

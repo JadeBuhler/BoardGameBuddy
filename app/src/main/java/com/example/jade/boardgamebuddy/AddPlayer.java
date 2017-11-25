@@ -3,20 +3,23 @@ package com.example.jade.boardgamebuddy;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.Toast;
 
 
 public class AddPlayer extends BaseActivity implements AvatarDialogListener
@@ -24,12 +27,14 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
     private Button btnChooseAvatar;
     private Button btnOk;
     private Button btnCancel;
-    private Button userAvatar;
+    private ImageView userAvatar;
     private EditText playerName;
     private Switch defaultPlayer;
     private DatabaseHelper dbHelper;
     private SharedPreferences preferences;
     private Typeface typeface;
+
+    String API_URL = "https://bgg-json.azurewebsites.net/collection/edwalter";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,7 +43,7 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
         setContentView(R.layout.activity_add_player);
 
         //Display the tool bar.
-        Toolbar appBar = (Toolbar)findViewById(R.id.appBar);
+        Toolbar appBar = findViewById(R.id.appBar);
         setSupportActionBar(appBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -46,14 +51,14 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
         preferences = getSharedPreferences("main_prefs", MODE_PRIVATE);
 
         // Find the user avatar image from the tool bar.
-        userAvatar = (Button)findViewById(R.id.userAvatar);
+        userAvatar = findViewById(R.id.userAvatar);
 
         // Find the choose avatar, ok and cancel buttons.
-        btnChooseAvatar = (Button)findViewById(R.id.btnChooseAvatar);
-        btnOk = (Button)findViewById(R.id.btnOk);
-        btnCancel = (Button)findViewById(R.id.btnCancel);
-        playerName = (EditText)findViewById(R.id.edtPlayerName);
-        defaultPlayer = (Switch)findViewById(R.id.swDefaultPlayer);
+        btnChooseAvatar = findViewById(R.id.btnChooseAvatar);
+        btnOk = findViewById(R.id.btnOk);
+        btnCancel = findViewById(R.id.btnCancel);
+        playerName = findViewById(R.id.edtPlayerName);
+        defaultPlayer = findViewById(R.id.swDefaultPlayer);
 
         // Instantiate the database helper.
         dbHelper = new DatabaseHelper(this);
@@ -68,8 +73,6 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
                 AvatarDialogFragment avatarFrag = new AvatarDialogFragment();
                 avatarFrag.show(getFragmentManager(), "Avatar Fragment");
 
-                // Placeholder toast.
-                Toast.makeText(AddPlayer.this, userAvatar.getBackground().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -111,8 +114,14 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
 
     public void saveContentValues(View view)
     {
+
+        ImageView userAvatar = findViewById(R.id.userAvatar);
+        Drawable drawable = userAvatar.getDrawable();
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dog_avatar);
+
         // Insert the player name from the edit text field into the database.
-        dbHelper.insertValues(playerName.getText().toString(), userAvatar.getBackground().toString());
+        dbHelper.insertValues(playerName.getText().toString(), bitmap);
     }
 
     @Override
@@ -121,7 +130,7 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
         Drawable result = avatar;
 
         btnChooseAvatar.setBackground(avatar);
-        userAvatar.setBackground(avatar);
+        userAvatar.setImageDrawable(avatar);
     }
 
 
@@ -253,5 +262,6 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
         }
 
     }
+
 }
 
