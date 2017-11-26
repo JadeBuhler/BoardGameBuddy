@@ -11,17 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:alwaysDrawnWithCache="false"
-        android:background="@android:color/holo_blue_dark"
-        android:clipChildren="false"
+        android:background="@drawable/toolbar_border"
+        android:clipChildren="true"
         android:elevation="4dp"
         android:theme="@style/AppTheme">
 
         <ImageView
             android:id="@+id/userAvatar"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="60dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             app:srcCompat="@drawable/fox_avatar" />
+
     </android.support.v7.widget.Toolbar>
 </RelativeLayout>

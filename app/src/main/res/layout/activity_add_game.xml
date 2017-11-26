@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bodyColor"
     tools:context="com.example.jade.boardgamebuddy.AddGame">
 
     <include
@@ -21,7 +22,8 @@
         android:text="Enter A Game Name"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
 
     <EditText
         android:id="@+id/edtSearchGames"
@@ -32,7 +34,8 @@
         android:layout_marginTop="44dp"
         android:inputType="text"
         android:text="Enter game name here"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@color/textColor"/>
 
     <Button
         android:id="@+id/btnSearch"
@@ -40,7 +43,8 @@
         android:layout_height="50dp"
         android:layout_alignTop="@+id/edtSearchGames"
         android:layout_toEndOf="@+id/edtSearchGames"
-        android:background="@drawable/search" />
+        android:background="@drawable/search"
+        android:backgroundTint="@color/textColor"/>
 
     <TextView
         android:id="@+id/txtOr"
@@ -52,7 +56,8 @@
         android:text="OR"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
 
     <TextView
         android:id="@+id/txtDropDownHeading"
@@ -64,26 +69,33 @@
         android:text="Pick A Game"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
 
 
     <Spinner
         android:id="@+id/spBoardGames"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:layout_width="300dp"
+        android:layout_height="25dp"
+        android:layout_alignStart="@+id/txtStats"
         android:layout_below="@+id/txtDropDownHeading"
-        android:layout_marginTop="19dp" />
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="30dp"
+        android:textAlignment="center"
+        android:background="@color/textColor"
+        android:textColor="@color/textColor" />
 
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/txtSearchHeading"
-        android:layout_alignTop="@+id/spBoardGames"
-        android:layout_marginTop="83dp"
+        android:layout_below="@+id/spBoardGames"
+        android:layout_marginTop="43dp"
+        android:background="@color/headingBackground"
         android:text="Add"
         android:textAlignment="center"
+        android:textColor="@color/textColor"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -96,7 +108,9 @@
         android:text="Cancel"
         android:textAlignment="center"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        android:background="@color/headingBackground"/>
 
     <TextView
         android:id="@+id/txtStats"
@@ -108,6 +122,7 @@
         android:text="Stat Tracking Coming Soon!"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
 
 </RelativeLayout>

@@ -14,14 +14,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity
@@ -292,7 +296,7 @@ public class MainActivity extends BaseActivity
      *
      * @param view A reference to a specific list view item layout
      */
-    public void showListOptions(View view)
+    public void showListOptions(final View view)
     {
         PopupMenu menu = new PopupMenu(this, view);
 
@@ -317,6 +321,10 @@ public class MainActivity extends BaseActivity
 
                         // Delete the player from the database.
                         dbHelper.deletePlayerRecord(name);
+
+                        // Remove the selected player from the list view and refresh the list
+                        playerAdapter.remove(playerAdapter.getItem(lvPlayers.getPositionForView(view)));
+                        playerAdapter.notifyDataSetChanged();
 
                         break;
                     case R.id.stats:

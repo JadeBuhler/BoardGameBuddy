@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jade.boardgamebuddy.addScreen">
+    tools:context="com.example.jade.boardgamebuddy.addScreen"
+    android:background="@color/bodyColor">
 
     <include layout="@layout/toolbar"/>
 
@@ -17,7 +18,8 @@
         android:text="Add A Player"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
 
     <Button
         android:id="@+id/btnAddPlayer"
@@ -26,7 +28,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/btnAddGame"
         android:layout_marginTop="161dp"
-        android:background="@drawable/add_user" />
+        android:background="@drawable/add_user"
+        android:backgroundTint="@color/textColor"/>
 
     <TextView
         android:id="@+id/textView"
@@ -38,7 +41,8 @@
         android:text="Add A Board Game"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
 
     <Button
         android:id="@+id/btnAddGame"
@@ -48,6 +52,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
         android:background="@drawable/dice"
-        android:backgroundTint="@android:color/black" />
+        android:backgroundTint="@color/textColor" />
 
 </RelativeLayout>

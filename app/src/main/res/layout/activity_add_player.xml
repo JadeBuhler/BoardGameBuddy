@@ -5,7 +5,8 @@
     android:id="@+id/addPlayerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jade.boardgamebuddy.AddPlayer">
+    tools:context="com.example.jade.boardgamebuddy.AddPlayer"
+    android:background="@color/bodyColor">
 
     <include layout="@layout/toolbar"/>
 
@@ -16,7 +17,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="Enter Player Name Here"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@color/textColor"/>
 
     <Button
         android:id="@+id/btnChooseAvatar"
@@ -38,7 +40,8 @@
         android:checked="true"
         android:text="Default Player"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
 
     <Button
         android:id="@+id/btnOk"
@@ -52,7 +55,9 @@
         android:text="OK"
         android:textAlignment="center"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        android:background="@color/headingBackground"/>
 
     <Button
         android:id="@+id/btnCancel"
@@ -66,7 +71,9 @@
         android:text="Cancel"
         android:textAlignment="center"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        android:background="@color/headingBackground"/>
 
 </RelativeLayout>
 

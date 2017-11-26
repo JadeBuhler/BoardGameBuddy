@@ -130,7 +130,7 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
         Drawable result = avatar;
 
         btnChooseAvatar.setBackground(avatar);
-        userAvatar.setImageDrawable(avatar);
+        //userAvatar.setImageDrawable(avatar);
     }
 
 

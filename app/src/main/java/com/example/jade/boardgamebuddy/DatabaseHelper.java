@@ -25,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final String PLAYER_COL_IMAGE = "Image";
     private static final String PLAYER_COL_NAME = "Name";
     private static final String GAMES_COL_NAME = "Name";
-    private static final int DB_VERSION = 10;
+    private static final int DB_VERSION = 11;
 
     // Define constants for creating each table.
 

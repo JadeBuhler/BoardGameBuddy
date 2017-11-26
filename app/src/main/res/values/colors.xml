@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="mainColor">#ff0099cc</color>
-    <color name="brightGreen">#08db16</color>
+    <color name="mainColor">#008cff</color>
+    <color name="bodyColor">#28536c</color>
+    <color name="headingBackground">#477187</color>
+    <color name="textColor">#a3d2ed</color>
 </resources>

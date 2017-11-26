@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bodyColor"
     tools:context="com.example.jade.boardgamebuddy.Settings">
 
     <include layout="@layout/toolbar"/>
@@ -19,7 +20,8 @@
         android:text="Show:"
         android:textAlignment="center"
         android:textSize="30sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
 
     <RadioGroup
         android:id="@+id/radioGroup3"
@@ -37,7 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="false"
-            android:text="Players" />
+            android:text="Players"
+            android:textColor="@color/textColor"/>
 
         <RadioButton
             android:id="@+id/rdbGames"
@@ -45,7 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="false"
-            android:text="Games" />
+            android:text="Games"
+            android:textColor="@color/textColor"/>
     </RadioGroup>
 
     <TextView
@@ -58,7 +62,8 @@
         android:text="Font Size:"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
 
     <Spinner
         android:id="@+id/spFontSize"
@@ -66,11 +71,13 @@
         android:layout_height="40dp"
         android:layout_alignBottom="@+id/txtFontSize"
         android:layout_marginStart="18dp"
-        android:layout_toEndOf="@+id/txtFontSize" />
+        android:layout_toEndOf="@+id/txtFontSize"
+        android:background="@color/textColor"
+        android:textColor="@color/textColor" />
 
     <TextView
         android:id="@+id/txtFontFamily"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtFontSize"
         android:layout_marginTop="37dp"
@@ -78,14 +85,17 @@
         android:text="Font Family:"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
 
     <Spinner
         android:id="@+id/spFontFamily"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_alignStart="@+id/spFontSize"
-        android:layout_alignTop="@+id/txtFontFamily" />
+        android:layout_alignTop="@+id/txtFontFamily"
+        android:background="@color/textColor"
+        android:textColor="@color/textColor" />
 
 
 </RelativeLayout>
