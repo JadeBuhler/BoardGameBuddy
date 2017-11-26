@@ -8,6 +8,17 @@
 
     <include layout="@layout/toolbar"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="102dp"
+        android:text="Add A Player"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/btnAddPlayer"
         android:layout_width="100dp"
@@ -17,13 +28,25 @@
         android:layout_marginTop="161dp"
         android:background="@drawable/add_user" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnAddPlayer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:text="Add A Board Game"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/btnAddGame"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_below="@+id/btnAddPlayer"
+        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp"
+        android:layout_marginTop="11dp"
         android:background="@drawable/dice"
         android:backgroundTint="@android:color/black" />
 

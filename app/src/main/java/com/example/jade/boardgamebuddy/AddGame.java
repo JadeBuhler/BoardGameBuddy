@@ -1,12 +1,16 @@
 package com.example.jade.boardgamebuddy;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -25,8 +29,12 @@ import java.util.ArrayList;
 public class AddGame extends BaseActivity
 {
     private String API_URL = "https://bgg-json.azurewebsites.net/collection/edwalter";
-
     private Spinner spGames;
+    private EditText editText;
+    private Button btnCancel;
+    private Button btnAdd;
+    private DatabaseHelper dbHelper;
+    private String gameId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,6 +45,40 @@ public class AddGame extends BaseActivity
         Toolbar appBar = (Toolbar)findViewById(R.id.appBar);
         setSupportActionBar(appBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        // Instantiate the database helper.
+        dbHelper = new DatabaseHelper(this);
+
+        spGames = findViewById(R.id.spBoardGames);
+        btnCancel = findViewById(R.id.btnCancel);
+        btnAdd = findViewById(R.id.btnAdd);
+
+
+        btnCancel.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // When the user chooses to cancel the add game action just finish the activity
+                // in order to go back to the previous screen.
+                finish();
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // Save the board game to the databse
+                saveContentValues(v);
+                finish();
+                Intent intent = new Intent(AddGame.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override
@@ -47,6 +89,13 @@ public class AddGame extends BaseActivity
         // Call our Async Task.
         FetchAPITask apiTask = new FetchAPITask();
         apiTask.execute();
+    }
+
+    public void saveContentValues(View view)
+    {
+        // Insert the board game name from the edit text field into the database.
+        dbHelper.insertBoardGame(editText.getText().toString());
+        Log.d("Insertion:", editText.getText().toString());
     }
 
     // This class will handle the reading and outputting of a specified API
@@ -118,6 +167,8 @@ public class AddGame extends BaseActivity
                 // JSON array
                 JSONArray apiResults = new JSONArray(response);
 
+                // I need to capture each games ID along with the name.
+
                 // This array will hold all the board game names
                 JSONArray nameArray = new JSONArray();
 
@@ -127,14 +178,14 @@ public class AddGame extends BaseActivity
                     // Get the current JSON object
                     JSONObject obj = apiResults.getJSONObject(i);
 
-                    // Get the board game name from the current object
+                    // Get the board game name and id from the current object
                     String nameObject = obj.getString("name");
 
-                    // Add the board game name to the array of names
+                    // Add the board game name and id to their respective arrays
                     nameArray.put(nameObject);
                 }
 
-                EditText edt = findViewById(R.id.edtSearchGames);
+                editText = findViewById(R.id.edtSearchGames);
                 spGames = findViewById(R.id.spBoardGames);
 
                 // This array list will be used to populate an array adapter since JSON arrays
@@ -149,12 +200,26 @@ public class AddGame extends BaseActivity
 
                 // Create an array adapter that will be used to populate the spinner with board
                 // game names
-                ArrayAdapter<String> test = new ArrayAdapter<>(AddGame.this, android.R
+                ArrayAdapter<String> gameList = new ArrayAdapter<>(AddGame.this, android.R
                         .layout.simple_expandable_list_item_1, list);
 
                 // Set the adapter to the games spinner
-                spGames.setAdapter(test);
-                edt.setText(spGames.getSelectedItem().toString());
+                spGames.setAdapter(gameList);
+                editText.setText(spGames.getSelectedItem().toString());
+
+                spGames.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+                {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+                    {
+                        editText.setText(spGames.getSelectedItem().toString());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
 
             }
             catch (JSONException e)

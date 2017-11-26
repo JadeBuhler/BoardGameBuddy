@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.jade.boardgamebuddy">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +22,8 @@
         <activity android:name=".BaseActivity" />
         <activity android:name=".AddPlayer" />
         <activity android:name=".AddGame" />
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings" />
+        <activity android:name=".ViewGame"></activity>
     </application>
 
 </manifest>

@@ -12,9 +12,11 @@ import android.widget.TextView;
 public class Settings extends BaseActivity
 {
     private SharedPreferences preferences;
+    private RadioButton rdbPlayers;
+    private RadioButton rdbGames;
     private Spinner spFontSize;
     private Spinner spFontFamily;
-    Typeface typeface;
+    private Typeface typeface;
 
     // This adapter will be used to populate the spinners
     private ArrayAdapter<CharSequence> fontAdapter;
@@ -30,9 +32,21 @@ public class Settings extends BaseActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         preferences = getSharedPreferences("main_prefs", MODE_PRIVATE);
+        rdbPlayers = findViewById(R.id.rdbPlayers);
+        rdbGames = findViewById(R.id.rdbGames);
         spFontSize = findViewById(R.id.spFontSize);
         spFontFamily = findViewById(R.id.spFontFamily);
 
+        if (preferences.getBoolean("displayPlayers", false) == true)
+        {
+            rdbPlayers.setChecked(true);
+            rdbGames.setChecked(false);
+        }
+        else if (preferences.getBoolean("displayPlayers", false) == false)
+        {
+            rdbPlayers.setChecked(false);
+            rdbGames.setChecked(true);
+        }
 
         // Populate the font size and font family spinners with arrays from the strings resource
         // file
@@ -58,6 +72,20 @@ public class Settings extends BaseActivity
         // that takes ints
         editor.putString("fontSize", spFontSize.getSelectedItem().toString());
         editor.putString("fontFamily", spFontFamily.getSelectedItem().toString());
+
+        // Check if the players radio button is checked, if it is set the displayPlayers boolean
+        // to true in the edit preferences, otherwise set it to false.
+        // This boolean will determine wether to display the players list view or games list view
+        // in the main activity
+        if (rdbPlayers.isChecked())
+        {
+            editor.putBoolean("displayPlayers", true);
+        }
+        else
+        {
+            editor.putBoolean("displayPlayers", false);
+        }
+
         editor.commit();
     }
 

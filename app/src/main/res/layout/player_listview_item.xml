@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="fill_parent"
-android:layout_height="?android:attr/listPreferredItemHeight"
-android:padding="6dip"
-android:orientation="horizontal">
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dip"
+    android:orientation="horizontal"
+    android:clickable="false"
+    android:descendantFocusability="blocksDescendants"
+    android:focusable="false"
+    android:focusableInTouchMode="false">
 
     <ImageView
         android:id="@+id/playerAvatar"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:adjustViewBounds="true"
+        android:layout_weight="0.1"
         android:scaleType="fitXY"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
 
 
     <TextView
@@ -21,13 +29,16 @@ android:orientation="horizontal">
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
 
     <Button
         android:id="@+id/btnOptions"
-        android:layout_width="12dp"
+        android:layout_width="15dp"
         android:layout_height="fill_parent"
-        android:layout_weight="0.1"
+        android:layout_weight="0.2"
         android:background="@drawable/option_dots"
         android:textAlignment="textEnd"
         android:onClick="showListOptions"/>

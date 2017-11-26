@@ -22,20 +22,21 @@
         android:textStyle="bold" />
 
     <RadioGroup
-        android:orientation="horizontal"
+        android:id="@+id/radioGroup3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/txtShow"
         android:layout_marginStart="30dp"
         android:layout_toEndOf="@+id/txtShow"
-        android:id="@+id/radioGroup3">
+        android:checkedButton="@+id/rdbPlayers"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rdbPlayers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:checked="true"
+            android:checked="false"
             android:text="Players" />
 
         <RadioButton
@@ -43,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:checked="false"
             android:text="Games" />
     </RadioGroup>
 

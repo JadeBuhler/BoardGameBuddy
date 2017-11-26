@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +92,7 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
             @Override
             public void onClick(View v)
             {
+                // Save the player name and avatar to the database
                 saveContentValues(v);
                 finish();
                 Intent intent = new Intent(AddPlayer.this, MainActivity.class);
@@ -118,10 +118,10 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
         ImageView userAvatar = findViewById(R.id.userAvatar);
         Drawable drawable = userAvatar.getDrawable();
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dog_avatar);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pig_avatar);
 
         // Insert the player name from the edit text field into the database.
-        dbHelper.insertValues(playerName.getText().toString(), bitmap);
+        dbHelper.insertPlayer(playerName.getText().toString(), bitmap);
     }
 
     @Override
