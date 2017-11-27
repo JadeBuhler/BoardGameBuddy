@@ -11,18 +11,24 @@ package com.example.jade.boardgamebuddy;
 public class Game
 {
     private String name;
+    private String gameId;
 
     /**
       * Constructor
       *
       * Params: name: The name of the board game
       */
-    public Game(String name)
+    public Game(String name, String gameId)
     {
         this.name = name;
+        this.gameId = gameId;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getId() {
+        return gameId;
     }
 }

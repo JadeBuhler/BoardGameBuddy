@@ -14,13 +14,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -69,10 +66,17 @@ public class MainActivity extends BaseActivity
         lvPlayers.setVisibility(View.GONE);
         lvGames.setVisibility(View.GONE);
 
+        txtDefault.setVisibility(View.VISIBLE);
+        lvPlayers.setVisibility(View.GONE);
+        lvGames.setVisibility(View.GONE);
+
+
         // TODO: Refactor this preferences check.
         if (preferences.getBoolean("displayPlayers", false))
         {
             txtDefault.setVisibility(View.VISIBLE);
+            txtDefault.setText("It looks like you haven't added any Players yet. Click the plus sign " +
+                    "below to add your first Player!");
 
             // If the players table has data hide the default text view and display the players list
             // view.
@@ -116,12 +120,6 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    protected void onPause()
-    {
-        super.onPause();
-    }
-
-    @Override
     protected void onResume()
     {
         super.onResume();
@@ -129,31 +127,36 @@ public class MainActivity extends BaseActivity
         // Get the users prefered typeface from the shared preferences
         typeFace = typeFace.create(preferences.getString("fontFamily", "monospace"), Typeface.NORMAL);
 
+        txtDefault.setVisibility(View.VISIBLE);
+        lvPlayers.setVisibility(View.GONE);
+        lvGames.setVisibility(View.GONE);
+
 
         // TODO: Refactor this preferences check.
         if (preferences.getBoolean("displayPlayers", false))
         {
-            txtDefault.setVisibility(View.GONE);
-            lvGames.setVisibility(View.GONE);
-            lvPlayers.setVisibility(View.VISIBLE);
+
 
             // If the players table has data hide the default text view and display the players list
             // view.
             if (tableHasData("Players"))
             {
+                txtDefault.setVisibility(View.GONE);
+                lvGames.setVisibility(View.GONE);
+                lvPlayers.setVisibility(View.VISIBLE);
+
                 // Load the player data into the list view.
                 loadPlayerData();
             }
         }
         else if (!preferences.getBoolean("displayPlayers", false))
         {
-            txtDefault.setVisibility(View.GONE);
-            lvPlayers.setVisibility(View.GONE);
-            lvGames.setVisibility(View.VISIBLE);
-
             if (tableHasData("Games"))
             {
-                Log.d("HasData:", "Data found");
+                txtDefault.setVisibility(View.GONE);
+                lvPlayers.setVisibility(View.GONE);
+                lvGames.setVisibility(View.VISIBLE);
+
                 // Load the board game data into the list view.
                 loadBoardGameData();
             }
@@ -216,17 +219,18 @@ public class MainActivity extends BaseActivity
 
         // Load all board game names from the database into an array list
         ArrayList<String> names = dbHelper.loadBoardGameNames();
+        ArrayList<String> ids = dbHelper.loadBoardGameIds();
 
         // This array list will eventually hold game objects for each game name returned from the
-        // databse
+        // database
         ArrayList<Game> games = new ArrayList<>();
 
-        // Itterate over each board game name in the names array list
+        // Iterate over each board game name in the names array list
         for (int i = 0; i < names.size(); i++)
         {
             // Create a new Game object and set the name to the current namme in the names array
             // list
-            Game newGame = new Game(names.get(i));
+            Game newGame = new Game(names.get(i), ids.get(i));
             games.add(newGame);
         }
 
@@ -315,16 +319,39 @@ public class MainActivity extends BaseActivity
                         break;
                     case R.id.delete:
 
-                        // Find the TextView of the player in the selected list view item
+
+                        // Find the TextView of the player or game in the selected list view item
                         TextView txtName = findViewById(R.id.txtPlayerName);
-                        String name = txtName.getText().toString();
+                        TextView txtGame = findViewById(R.id.txtGameName);
 
-                        // Delete the player from the database.
-                        dbHelper.deletePlayerRecord(name);
+                        // If txtName is not null the delete call came from a player list view
+                        if (txtName != null)
+                        {
+                            // Get the player name
+                            String name = txtName.getText().toString();
 
-                        // Remove the selected player from the list view and refresh the list
-                        playerAdapter.remove(playerAdapter.getItem(lvPlayers.getPositionForView(view)));
-                        playerAdapter.notifyDataSetChanged();
+                            // Delete the player from the database
+                            dbHelper.deletePlayerRecord(name);
+
+                            // Remove the selected player from the list view and refresh the list
+                            playerAdapter.remove(playerAdapter.getItem(lvPlayers.getPositionForView(view)));
+                            playerAdapter.notifyDataSetChanged();
+                        }
+
+                        // If txtGame is not null the delete call came from a game list view
+                        if (txtGame != null)
+                        {
+                            // Get the game name
+                            String gameName = txtGame.getText().toString();
+
+                            // Delete the game from the databse
+                            dbHelper.deleteGameRecord(gameName);
+
+                            // Remove the selected game from the listview and refresh the list
+                            gameAdapter.remove(gameAdapter.getItem(lvGames.getPositionForView
+                                    (view)));
+                            gameAdapter.notifyDataSetChanged();
+                        }
 
                         break;
                     case R.id.stats:

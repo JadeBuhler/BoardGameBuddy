@@ -25,7 +25,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final String PLAYER_COL_IMAGE = "Image";
     private static final String PLAYER_COL_NAME = "Name";
     private static final String GAMES_COL_NAME = "Name";
-    private static final int DB_VERSION = 11;
+    private static final String GAMES_COL_ID = "Id";
+    private static final int DB_VERSION = 12;
 
     // Define constants for creating each table.
 
@@ -36,7 +37,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
     private static final String GAME_TABLE_CREATE =
             "CREATE TABLE " + GAMES_TABLE + " (" +
-                    GAMES_COL_NAME + " STRING NOT NULL);";
+                    GAMES_COL_NAME + " STRING NOT NULL, " +
+                    GAMES_COL_ID + " STRING NOT NULL);";
 
     // Define constants for dropping each table.
     private static final String DROP_PLAYER_TABLE = "DROP TABLE IF EXISTS " + PLAYER_TABLE;
@@ -88,7 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.close();
     }
 
-    public void insertBoardGame(String name)
+    public void insertBoardGame(String name, String id)
     {
         // Get an instance of the writable database.
         SQLiteDatabase db = this.getWritableDatabase();
@@ -98,6 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
         // Add the player name to the content values.
         insertValues.put(GAMES_COL_NAME, name);
+        insertValues.put(GAMES_COL_ID, id);
 
         // Insert the player name into the database.
         db.insert(GAMES_TABLE, null, insertValues);
@@ -245,6 +248,54 @@ public class DatabaseHelper extends SQLiteOpenHelper
     }
 
     /*
+     * This method loads data from the Games table in the database and inserts the retrieved
+     * data into an array list.
+     *
+     * Returns: An array list containing board game names.
+     */
+    public ArrayList<String> loadBoardGameIds()
+    {
+        ArrayList<String> idData = new ArrayList<String>();
+
+        //open the readable database
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //create an array of the table names
+        String[] selection = {GAMES_COL_ID};
+
+        //Create a cursor item for querying the database
+        Cursor c = db.query(GAMES_TABLE,	//The name of the table to query
+                selection,				    //The columns to return
+                null,				//The columns for the where clause
+                null,			//The values for the where clause
+                null,				//Group the rows
+                null,				//Filter the row groups
+                null);				//The sort order
+
+        //Move to the first row
+        c.moveToFirst();
+
+        //For each row that was retrieved
+        for(int i=0; i < c.getCount(); i++)
+        {
+            //assign the value to the corresponding array
+            idData.add(c.getString(0));
+
+            c.moveToNext();
+        }
+
+        //close the cursor
+        c.close();
+
+        //close the database
+        db.close();
+
+        return idData;
+    }
+
+
+
+    /*
      * This method takes in a bitmap image and converts it to a byte array.
      *
      */
@@ -265,11 +316,13 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.close();
     }
 
-    public Boolean deleteGameRecord(String name)
+    public void deleteGameRecord(String name)
     {
         // Open the readable database
         SQLiteDatabase db = this.getReadableDatabase();
 
-        return db.delete(GAMES_TABLE, GAMES_COL_NAME + "=" + name, null) > 0;
+        db.delete(GAMES_TABLE, GAMES_COL_NAME + "= '" + name + "'", null);
+
+        db.close();
     }
 }

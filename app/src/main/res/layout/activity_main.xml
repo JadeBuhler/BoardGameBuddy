@@ -15,14 +15,15 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="It looks like you haven't set up a player yet. Click the plus sign below to set up your first player."
+        android:text="It looks like you haven't added any players yet. Click the plus sign below to add your first player."
+        android:textColor="#6F8FA2"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="#6F8FA2"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnAdd"
@@ -30,15 +31,13 @@
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="15dp"
         android:background="@drawable/circle_plus"
         android:backgroundTint="@color/textColor" />
 
     <ListView
         android:id="@+id/lvPlayers"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="470dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="83dp"
@@ -47,7 +46,7 @@
     <ListView
         android:id="@+id/lvGames"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="470dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="83dp"

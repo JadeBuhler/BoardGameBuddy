@@ -125,4 +125,16 @@
         android:textStyle="bold"
         android:textColor="@color/textColor"/>
 
+    <Spinner
+        android:id="@+id/spHiddenId"
+        android:layout_width="300dp"
+        android:layout_height="25dp"
+        android:layout_alignEnd="@+id/txtStats"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:background="@color/textColor"
+        android:textAlignment="center"
+        android:textColor="@color/textColor"
+        android:visibility="gone" />
+
 </RelativeLayout>

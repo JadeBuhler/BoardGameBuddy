@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,6 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
     private DatabaseHelper dbHelper;
     private SharedPreferences preferences;
     private Typeface typeface;
-
-    String API_URL = "https://bgg-json.azurewebsites.net/collection/edwalter";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -116,9 +115,8 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
     {
 
         ImageView userAvatar = findViewById(R.id.userAvatar);
-        Drawable drawable = userAvatar.getDrawable();
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pig_avatar);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cat_avatar);
 
         // Insert the player name from the edit text field into the database.
         dbHelper.insertPlayer(playerName.getText().toString(), bitmap);
@@ -130,7 +128,6 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
         Drawable result = avatar;
 
         btnChooseAvatar.setBackground(avatar);
-        //userAvatar.setImageDrawable(avatar);
     }
 
 

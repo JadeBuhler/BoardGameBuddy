@@ -16,7 +16,8 @@
         android:layout_height="40dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Enter Player Name Here"
+        android:hint="Enter Player Name Here"
+        android:textColorHint="@color/textColor"
         android:textAlignment="center"
         android:textColor="@color/textColor"/>
 

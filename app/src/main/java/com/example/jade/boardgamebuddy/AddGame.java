@@ -30,6 +30,7 @@ public class AddGame extends BaseActivity
 {
     private String API_URL = "https://bgg-json.azurewebsites.net/collection/edwalter";
     private Spinner spGames;
+    private Spinner spHiddenId;
     private EditText editText;
     private Button btnCancel;
     private Button btnAdd;
@@ -94,7 +95,7 @@ public class AddGame extends BaseActivity
     public void saveContentValues(View view)
     {
         // Insert the board game name from the edit text field into the database.
-        dbHelper.insertBoardGame(editText.getText().toString());
+        dbHelper.insertBoardGame(editText.getText().toString(), spHiddenId.getSelectedItem().toString());
         Log.d("Insertion:", editText.getText().toString());
     }
 
@@ -167,10 +168,10 @@ public class AddGame extends BaseActivity
                 // JSON array
                 JSONArray apiResults = new JSONArray(response);
 
-                // I need to capture each games ID along with the name.
-
                 // This array will hold all the board game names
                 JSONArray nameArray = new JSONArray();
+
+                JSONArray idArray = new JSONArray();
 
                 // For each item in the api result array...
                 for(int i = 0; i < apiResults.length(); i++)
@@ -180,22 +181,28 @@ public class AddGame extends BaseActivity
 
                     // Get the board game name and id from the current object
                     String nameObject = obj.getString("name");
+                    String idObject = obj.getString("gameId");
 
                     // Add the board game name and id to their respective arrays
                     nameArray.put(nameObject);
+                    idArray.put(idObject);
                 }
 
                 editText = findViewById(R.id.edtSearchGames);
                 spGames = findViewById(R.id.spBoardGames);
+                spHiddenId = findViewById(R.id.spHiddenId);
+
 
                 // This array list will be used to populate an array adapter since JSON arrays
                 // can't be set to array adapters
                 ArrayList<String> list = new ArrayList<>();
+                ArrayList<String> otherList = new ArrayList<>();
 
                 // Add each name in the JSON array to the String array list
                 for (int i = 0; i < nameArray.length(); i++)
                 {
                     list.add(nameArray.getString(i));
+                    otherList.add(idArray.getString(i));
                 }
 
                 // Create an array adapter that will be used to populate the spinner with board
@@ -203,8 +210,12 @@ public class AddGame extends BaseActivity
                 ArrayAdapter<String> gameList = new ArrayAdapter<>(AddGame.this, android.R
                         .layout.simple_expandable_list_item_1, list);
 
+                ArrayAdapter<String> idList = new ArrayAdapter<String>(AddGame.this, android.R
+                        .layout.simple_expandable_list_item_1,otherList);
+
                 // Set the adapter to the games spinner
                 spGames.setAdapter(gameList);
+                spHiddenId.setAdapter(idList);
                 editText.setText(spGames.getSelectedItem().toString());
 
                 spGames.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -213,6 +224,7 @@ public class AddGame extends BaseActivity
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
                     {
                         editText.setText(spGames.getSelectedItem().toString());
+                        spHiddenId.setSelection(spGames.getSelectedItemPosition());
                     }
 
                     @Override
