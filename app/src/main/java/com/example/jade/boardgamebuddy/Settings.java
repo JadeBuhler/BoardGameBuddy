@@ -27,22 +27,28 @@ public class Settings extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        // Instantiate the toolbar
         Toolbar appBar = (Toolbar)findViewById(R.id.appBar);
         setSupportActionBar(appBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        // Instantiate the shared preferences
         preferences = getSharedPreferences("main_prefs", MODE_PRIVATE);
+
         rdbPlayers = findViewById(R.id.rdbPlayers);
         rdbGames = findViewById(R.id.rdbGames);
         spFontSize = findViewById(R.id.spFontSize);
         spFontFamily = findViewById(R.id.spFontFamily);
 
-        if (preferences.getBoolean("displayPlayers", false) == true)
+        // Checks the shared preferences and sets the radio buttons accordingly
+        // If the displayPlayers boolean is true check the Players radio button, otherwise check
+        // the Games radio button
+        if (preferences.getBoolean("displayPlayers", false))
         {
             rdbPlayers.setChecked(true);
             rdbGames.setChecked(false);
         }
-        else if (preferences.getBoolean("displayPlayers", false) == false)
+        else if (!preferences.getBoolean("displayPlayers", false))
         {
             rdbPlayers.setChecked(false);
             rdbGames.setChecked(true);
@@ -121,7 +127,7 @@ public class Settings extends BaseActivity
         String chosenFontSize = preferences.getString("fontSize", "12");
 
         // Set the spinners to have the previously selected item selected when the activity is
-        // laoded again
+        // loaded again
         fontAdapter = ArrayAdapter.createFromResource(this, R.array.font_family, android.R.layout
                 .simple_spinner_dropdown_item);
 

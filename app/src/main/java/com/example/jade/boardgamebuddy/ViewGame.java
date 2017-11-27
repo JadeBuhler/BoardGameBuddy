@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.json.JSONException;
@@ -62,7 +61,7 @@ public class ViewGame extends BaseActivity
         // Get the database
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // This select query will retreive the gameId associated with the game name
+        // This select query will retrieve the gameId associated with the game name
         String selectQuery = "SELECT Id FROM Games WHERE Name = '" +txtGameName.getText()+"'";
 
         // Execute the select query
@@ -76,7 +75,7 @@ public class ViewGame extends BaseActivity
 
         c.close();
 
-        // This url will qery the board game geek JSON api for information about the board game.
+        // This url will query the board game geek JSON api for information about the board game.
         API_URL = "https://bgg-json.azurewebsites.net/thing/" + gameId +"?&brief=1";
 
         // Execute our async task to get data from the API
@@ -94,11 +93,9 @@ public class ViewGame extends BaseActivity
         apiTask.execute();
     }
 
-    // This class will handle the reading and outputting of a specified API
-    //
-    // Params:  Void:   Specifies that the onPreExecute method will not return anything
-    //          Void:   Specifies that the doInBackground method will not return anything
-    //          String: Specifies that the onPostExecute method will return a string
+    /**
+     * This class will handle the reading and outputting of the Board Game Geek API.
+     */
     class FetchData extends AsyncTask<Void, Void, String>
     {
         @Override
@@ -229,8 +226,6 @@ public class ViewGame extends BaseActivity
             {
                 e.printStackTrace();
             }
-
-
             return null;
         }
 

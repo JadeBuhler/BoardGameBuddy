@@ -10,10 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-/*
- *
- * Accidentally named this activity using lower camel case. It will haunt me forever.
- *
+/**
+ *  Accidentally named this activity using lower camel case. It will haunt me forever.
  */
 public class addScreen extends BaseActivity
 {
@@ -21,25 +19,27 @@ public class addScreen extends BaseActivity
     Button btnAddGame;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_screen);
 
-        Toolbar appBar = (Toolbar)findViewById(R.id.appBar);
+        // Display the toolbar
+        Toolbar appBar = findViewById(R.id.appBar);
         setSupportActionBar(appBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        btnAddPlayer = (Button)findViewById(R.id.btnAddPlayer);
-        btnAddGame = (Button)findViewById(R.id.btnAddGame);
+        btnAddPlayer = findViewById(R.id.btnAddPlayer);
+        btnAddGame = findViewById(R.id.btnAddGame);
 
         btnAddPlayer.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
+                // Send the user to the AddPlayer activity
                 Intent intent = new Intent(addScreen.this, AddPlayer.class);
-
-                startActivityForResult(intent, 0);
+                startActivity(intent);
             }
         });
 
@@ -48,9 +48,9 @@ public class addScreen extends BaseActivity
             @Override
             public void onClick(View view)
             {
+                // Send the user to the AddGame activity
                 Intent intent = new Intent(addScreen.this, AddGame.class);
-
-                startActivityForResult(intent, 0);
+                startActivity(intent);
             }
         });
     }

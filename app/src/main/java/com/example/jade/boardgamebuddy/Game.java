@@ -1,7 +1,7 @@
 package com.example.jade.boardgamebuddy;
 
 /**
- * Author: Jade
+ * Author: Jade Buhler
  * Date: 11/26/2017.
  *
  * Defines a Game object.
@@ -14,10 +14,11 @@ public class Game
     private String gameId;
 
     /**
-      * Constructor
-      *
-      * Params: name: The name of the board game
-      */
+     * Constructor
+     *
+     * @param name The name of the board game
+     * @param gameId The Board Game Geek API gameId associated with the board game name
+     */
     public Game(String name, String gameId)
     {
         this.name = name;

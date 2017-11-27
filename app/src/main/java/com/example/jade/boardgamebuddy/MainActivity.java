@@ -32,7 +32,6 @@ public class MainActivity extends BaseActivity
     private ListView lvGames;
     private PlayerAdapter playerAdapter;
     private GameAdapter gameAdapter;
-    private Button btnAdd;
     private TextView txtDefault;
     private SharedPreferences preferences;
     private Typeface typeFace;
@@ -43,6 +42,7 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Instantiate the dbHelper
         dbHelper = new DatabaseHelper(this);
 
         // Instantiate the toolbar
@@ -53,19 +53,12 @@ public class MainActivity extends BaseActivity
         // Instantiate the shared preferences
         preferences = getSharedPreferences("main_prefs", MODE_PRIVATE);
 
-        btnAdd = findViewById(R.id.btnAdd);
+        Button btnAdd = findViewById(R.id.btnAdd);
         txtDefault = findViewById(R.id.txtDefault);
-
-        // Instantiate the players list view.
         lvPlayers = findViewById(R.id.lvPlayers);
-
-        // Instantiate the board games list view.
         lvGames = findViewById(R.id.lvGames);
 
-        // Hide the players and board games list views.
-        lvPlayers.setVisibility(View.GONE);
-        lvGames.setVisibility(View.GONE);
-
+        // Show the default text and hide the players and board games list views.
         txtDefault.setVisibility(View.VISIBLE);
         lvPlayers.setVisibility(View.GONE);
         lvGames.setVisibility(View.GONE);
@@ -111,9 +104,9 @@ public class MainActivity extends BaseActivity
             @Override
             public void onClick(View view)
             {
+                // Send the user to the addScreen activity
                 Intent intent = new Intent(MainActivity.this, addScreen.class);
-
-                startActivityForResult(intent, 0);
+                startActivity(intent);
             }
         });
 
@@ -124,7 +117,7 @@ public class MainActivity extends BaseActivity
     {
         super.onResume();
 
-        // Get the users prefered typeface from the shared preferences
+        // Get the users preferred typeface from the shared preferences
         typeFace = typeFace.create(preferences.getString("fontFamily", "monospace"), Typeface.NORMAL);
 
         txtDefault.setVisibility(View.VISIBLE);
@@ -135,7 +128,6 @@ public class MainActivity extends BaseActivity
         // TODO: Refactor this preferences check.
         if (preferences.getBoolean("displayPlayers", false))
         {
-
 
             // If the players table has data hide the default text view and display the players list
             // view.
@@ -163,6 +155,8 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    // region Database interaction methods
+
     /**
      * This method will load player data from the SQLite database.
      */
@@ -176,17 +170,16 @@ public class MainActivity extends BaseActivity
         ArrayList<Bitmap> avatars = dbHelper.loadAvatars();
 
         // This array list will eventually hold a player object for each returned player name
-        // from the databse
+        // from the database
         ArrayList<Player> players = new ArrayList<>();
 
-        // Itterate over player name in the names array list
+        // Iterate over player name in the names array list
         for (int i = 0; i < names.size(); i++)
         {
             // Create a new player object and set the name to the current name.
             // Also set the player avatar to the avatar that corresponds with the current index
             // of the loop.
             Player newPlayer = new Player(names.get(i), (Bitmap)avatars.get(i));
-
             players.add(newPlayer);
         }
 
@@ -295,6 +288,10 @@ public class MainActivity extends BaseActivity
        return false;
     }
 
+    //endregion
+
+    //region Popup Menu
+
     /**
      * Displays and populates a popup menu of options available for board games and players.
      *
@@ -318,8 +315,6 @@ public class MainActivity extends BaseActivity
                     case R.id.edit:
                         break;
                     case R.id.delete:
-
-
                         // Find the TextView of the player or game in the selected list view item
                         TextView txtName = findViewById(R.id.txtPlayerName);
                         TextView txtGame = findViewById(R.id.txtGameName);
@@ -366,6 +361,8 @@ public class MainActivity extends BaseActivity
         menu.show();
     }
 
+    //endregion
+
     //region Custom Array Adapters
 
     /**
@@ -376,7 +373,13 @@ public class MainActivity extends BaseActivity
     {
         private ArrayList<Player> players;
 
-
+        /**
+         * Constructor
+         *
+         * @param context The context of the adapter
+         * @param textViewResourceId The ID of the txt view resource
+         * @param players An array list of players to be loaded into a list view
+         */
         public PlayerAdapter(Context context, int textViewResourceId, ArrayList<Player> players)
         {
             super(context, textViewResourceId, players);
@@ -384,13 +387,15 @@ public class MainActivity extends BaseActivity
         }
 
         /**
-          * Override the getView method to display a custom layout for ListView items.
-          *
-          * Called once for each player in the ArrayList as the list is loaded.
-          *
-          * Returns: view: A player list item to be displayed in a ListView for each player in the
-          * list.
-          */
+         * Override the getView method to display a custom layout for ListView items.
+         *
+         * Called once for each Player in the ArrayList as the list is loaded.
+         *
+         * @param position The position of the current Player.
+         * @param convertView The view of the list item (I think?)
+         * @param parent The parent element.
+         * @return A player list item to be displayed in a ListView for each player in the list.
+         */
         @Override
         public View getView(int position, View convertView, ViewGroup parent)
         {
@@ -448,7 +453,13 @@ public class MainActivity extends BaseActivity
     {
         private ArrayList<Game> games;
 
-
+        /**
+         * Constructor
+         *
+         * @param context The context of the adapter
+         * @param textViewResourceId The ID of the text view resource
+         * @param games An array list of Games to be loaded into a list view
+         */
         public GameAdapter(Context context, int textViewResourceId, ArrayList<Game> games)
         {
             super(context, textViewResourceId, games);
@@ -457,13 +468,15 @@ public class MainActivity extends BaseActivity
 
 
         /**
-          * Override the getView method to display a custom layout for ListView items.
-          *
-          * Called once for each game in the ArrayList as the list is loaded.
-          *
-          * Returns: view: A game list item to be displayed in a ListView for each game in the
-          * list.
-          */
+         * Override the getView method to display a custom layout for ListView items.
+         *
+         * Called once for each game in the ArrayList as the list is loaded.
+         *
+         * @param position The position of the current Game.
+         * @param convertView The view of the list item (I think?)
+         * @param parent The parent element
+         * @return A game list item to be displayed in a ListView for each game in the list.
+         */
         @Override
         public View getView(int position, View convertView, ViewGroup parent)
         {

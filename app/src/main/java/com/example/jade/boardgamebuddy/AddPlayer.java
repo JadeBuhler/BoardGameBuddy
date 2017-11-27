@@ -94,6 +94,8 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
                 // Save the player name and avatar to the database
                 saveContentValues(v);
                 finish();
+
+                // Take the user back to the main activity
                 Intent intent = new Intent(AddPlayer.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -105,46 +107,45 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
     {
         super.onResume();
 
+        // Get the prefered typeface from the shared preferences
         typeface = typeface.create(preferences.getString("fontFamily", "serif"), Typeface.NORMAL);
 
+        // Set the typeface and text size for the defaultPlayer text
         defaultPlayer.setTypeface(typeface);
         defaultPlayer.setTextSize(Integer.valueOf(preferences.getString("fontSize", "12")));
     }
 
     public void saveContentValues(View view)
     {
+        userAvatar = findViewById(R.id.userAvatar);
 
-        ImageView userAvatar = findViewById(R.id.userAvatar);
-
+        // Convert the user avatar to a bitmap image
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cat_avatar);
 
-        // Insert the player name from the edit text field into the database.
+        // Insert the player name from the edit text field and the player avatar from the image view
+        // into the database.
         dbHelper.insertPlayer(playerName.getText().toString(), bitmap);
     }
 
     @Override
     public void updateResult(Drawable avatar)
     {
-        Drawable result = avatar;
-
+        // Set the Choose Avatar button background to the selected avatar
         btnChooseAvatar.setBackground(avatar);
     }
 
 
-    /*
+    /**
      * This class is a custom fragment that is an extension of a dialog fragment.
      *
-     * This custom fragment will display a set of avatar images for the user to select from. When a user
-     * selects an avatar the fragment will close and the users avatar will update in the apps
-     * toolbar. The "Choose Avatar" button will also update to the users selection.
-     *
+     * This custom fragment will display a set of avatar images for the user to select from. When
+     * a user selects an avatar the fragment will close and the "Choose Avatar" button will
+     * update to the users selection.
      */
     public static class AvatarDialogFragment extends DialogFragment
     {
         // Empty constructor
-        public AvatarDialogFragment()
-        {
-
+        public AvatarDialogFragment() {
         }
 
         @Override
@@ -186,16 +187,14 @@ public class AddPlayer extends BaseActivity implements AvatarDialogListener
                 {
                     // Switch statement for each ImageButton.
 
-                    // When an Image button is clicked the DialogListener will update the users
-                    // avatar in the toolbar as well as the "Choose Avatar" button on the
-                    // AddPlayer activity.
+                    // When an Image button is clicked the DialogListener will update the "Choose
+                    // Avatar" button on the AddPlayer activity.
                     //
                     // Once an avatar is chosen the dialog fragment will close.
                     switch (v.getId())
                     {
                         case R.id.btnCatAvatar:
                             dialogListener.updateResult(catAvatar.getDrawable());
-
                             dismiss();
                             break;
 

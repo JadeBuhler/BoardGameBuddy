@@ -7,13 +7,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
  * Author Jade Buhler
  * Date: 11/17/2017
+ *
+ * This class is used to create and interact with an SQLite database.
+ *
+ * The BoardGameBuddy database contains Player and Games tables.
+ *
+ * The Player table holds Player names and avatars
+ * The Games table holds Game names and game Id's. The game Id's are used to interact with the
+ * board game geek API.
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper
@@ -29,7 +36,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final int DB_VERSION = 12;
 
     // Define constants for creating each table.
-
     private static final String PLAYER_TABLE_CREATE =
             "CREATE TABLE " + PLAYER_TABLE + " (" +
                     PLAYER_COL_NAME + " STRING NOT NULL, " +
@@ -66,6 +72,11 @@ public class DatabaseHelper extends SQLiteOpenHelper
         onCreate(db);
     }
 
+    /**
+     * Handles the insertion of a player into the database
+     * @param name The name of the Player
+     * @param image The players avatar
+     */
     public void insertPlayer(String name, Bitmap image)
     {
         // Get an instance of the writable database.
@@ -81,8 +92,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
         insertValues.put(PLAYER_COL_NAME, name);
         insertValues.put(PLAYER_COL_IMAGE, imageData);
 
-        Log.d("jalaka:", imageData.toString());
-
         // Insert the player name into the database.
         db.insert(PLAYER_TABLE, null, insertValues);
 
@@ -90,6 +99,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.close();
     }
 
+    /**
+     * Handles the insertion of a board game into the database.
+     * @param name The name of the board game
+     * @param id The Board Game Geek Id that corresponds to the game name in the Board Game Geek
+     *           API.
+     */
     public void insertBoardGame(String name, String id)
     {
         // Get an instance of the writable database.
@@ -109,15 +124,15 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.close();
     }
 
-    /*
-     * This method loads data from the Players table in the database and inserts the retrieved
-     * data into an array list.
+
+    /**
+     * This method loads player names from the Players table in the database and inserts the
+     * retrieved data into an array list.
      *
-     * Returns: An array list containing players names.
+     * @return A array list containing players names.
      */
     public ArrayList<String> loadPlayerNames()
     {
-
         ArrayList<String> nameData = new ArrayList<String>();
 
         //open the readable database
@@ -155,9 +170,15 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return nameData;
     }
 
+    /**
+     * This method loads player avatars from the Players table in the database and inserts the
+     * retrieved data into an array list.
+     *
+     * @return An array list of player avatars.
+     */
     public ArrayList<Bitmap> loadAvatars()
     {
-        ArrayList<Bitmap> avatarData = new ArrayList<Bitmap>();
+        ArrayList<Bitmap> avatarData = new ArrayList<>();
 
         // Open the readable database
         SQLiteDatabase db = this.getReadableDatabase();
@@ -185,7 +206,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
             // Decode the byte into a bitmap and add it to the bitmap array list
             Bitmap bitmapImage = BitmapFactory.decodeByteArray(imgData, 0, imgData.length);
-
             avatarData.add(bitmapImage);
 
             c.moveToNext();
@@ -200,16 +220,15 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return avatarData;
     }
 
-    /*
-     * This method loads data from the Games table in the database and inserts the retrieved
-     * data into an array list.
+    /**
+     * This method loads board game names from the Games table in the database and inserts the
+     * retrieved data into an array list.
      *
-     * Returns: An array list containing board game names.
+     * @return An array list containing board game names.
      */
     public ArrayList<String> loadBoardGameNames()
     {
-
-        ArrayList<String> nameData = new ArrayList<String>();
+        ArrayList<String> nameData = new ArrayList<>();
 
         //open the readable database
         SQLiteDatabase db = this.getReadableDatabase();
@@ -247,11 +266,11 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return nameData;
     }
 
-    /*
-     * This method loads data from the Games table in the database and inserts the retrieved
-     * data into an array list.
+    /**
+     * This method loads board game ID's from the Games table in the database and inserts the
+     * retrieved data into an array list.
      *
-     * Returns: An array list containing board game names.
+     * @return An array list containing board game ID's.
      */
     public ArrayList<String> loadBoardGameIds()
     {
@@ -293,11 +312,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return idData;
     }
 
-
-
-    /*
-     * This method takes in a bitmap image and converts it to a byte array.
+    /**
+     * This method takes in a bitmap image and converts it into a byte array.
      *
+     * @param bitmap The bitmap image to be converted to a byte array.
+     *
+     * @return The output stream of the converted bitmap image as a byte array.
      */
     public static byte[] getBitmapAsByteArray(Bitmap bitmap)
     {
@@ -306,21 +326,32 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return outputStream.toByteArray();
     }
 
+    /**
+     *  This method will handle the deletion of a player from the database.
+     *
+     * @param name The name of the player to deleted from the database.
+     */
     public void deletePlayerRecord(String name)
     {
         // Open the readable database
         SQLiteDatabase db = this.getReadableDatabase();
 
+        // Execute SQL to delete the player from the database.
         db.delete(PLAYER_TABLE, PLAYER_COL_NAME + "= '" + name + "'", null);
-
         db.close();
     }
 
+    /**
+     * This method will handle the deletion of a board game from the database.
+     *
+     * @param name The name of the board game to be deleted from the database.
+     */
     public void deleteGameRecord(String name)
     {
         // Open the readable database
         SQLiteDatabase db = this.getReadableDatabase();
 
+        // Execute the SQL to delete the board game from the database.
         db.delete(GAMES_TABLE, GAMES_COL_NAME + "= '" + name + "'", null);
 
         db.close();

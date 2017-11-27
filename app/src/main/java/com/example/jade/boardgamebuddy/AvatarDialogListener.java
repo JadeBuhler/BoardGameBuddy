@@ -5,8 +5,10 @@ import android.graphics.drawable.Drawable;
 /**
  * A custom interface used to update player avatars.
  *
- * Author Jade Buhler
+ * Author: Jade Buhler
  * Date: 11/17/2017.
+ *
+ * This interface is used in the AddPlayer activity.
  */
 
 public interface AvatarDialogListener

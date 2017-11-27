@@ -28,14 +28,24 @@ import java.util.ArrayList;
 
 public class AddGame extends BaseActivity
 {
+    // This url is used to populate the spGames spinner with board game names
     private String API_URL = "https://bgg-json.azurewebsites.net/collection/edwalter";
-    private Spinner spGames;
+
+    // This spinner is used for the stupidest hack I've ever come up with (so far).
+    // Basically the board game geek API cannot be queried by using a game name, it must use a
+    // game ID, so, in order to be able to query the API later each board game ID must be
+    // captured and inserted into the database along with the chosen board game name. This
+    // spinner will hold every board game ID returned from the above API URL. This spinner's
+    // visibility is always set to INVISIBLE so the user never sees it and cannot interact with
+    // it. The spinner will update it's selected item based on the board game selected from the
+    // baord game name spinner. Like I said, it's stupid, but it works.
     private Spinner spHiddenId;
+
+    private Spinner spGames;
     private EditText editText;
     private Button btnCancel;
     private Button btnAdd;
     private DatabaseHelper dbHelper;
-    private String gameId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,6 +53,7 @@ public class AddGame extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_game);
 
+        // Inflate the toolbar
         Toolbar appBar = (Toolbar)findViewById(R.id.appBar);
         setSupportActionBar(appBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -71,9 +82,11 @@ public class AddGame extends BaseActivity
             @Override
             public void onClick(View v)
             {
-                // Save the board game to the databse
+                // Save the board game to the database
                 saveContentValues(v);
                 finish();
+
+                // Take the user back to the main activity
                 Intent intent = new Intent(AddGame.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -94,16 +107,15 @@ public class AddGame extends BaseActivity
 
     public void saveContentValues(View view)
     {
-        // Insert the board game name from the edit text field into the database.
+        // Insert the board game name from the edit text field and the game ID from the hidden
+        // spinner into the database.
         dbHelper.insertBoardGame(editText.getText().toString(), spHiddenId.getSelectedItem().toString());
-        Log.d("Insertion:", editText.getText().toString());
     }
 
-    // This class will handle the reading and outputting of a specified API
-    //
-    // Params:  Void:   Specifies that the onPreExecute method will not return anything
-    //          Void:   Specifies that the doInBackground method will not return anything
-    //          String: Specifies that the onPostExecute method will return a string
+    /**
+     * This class will handle the reading and outputting of a specified API. In our case, we will
+     * be reading the Board Game Geek API.
+     */
     class FetchAPITask extends AsyncTask<Void, Void, String>
     {
         @Override
@@ -158,8 +170,10 @@ public class AddGame extends BaseActivity
         }
 
         @Override
-        // Params: response: The response is set to whatever is returned from the doInBackground method
-        //                   In this case response is the result of our string builder
+        /**
+         * @params response The response is set to whatever is returned from the doInBackground
+         * method. In this case response is set to the result of our string builder.
+         */
         protected void onPostExecute(String response)
         {
             try
@@ -171,6 +185,8 @@ public class AddGame extends BaseActivity
                 // This array will hold all the board game names
                 JSONArray nameArray = new JSONArray();
 
+                // This array is part of the my stupid hack to store board game ID's in the database
+                // This array will hold all board game ID's
                 JSONArray idArray = new JSONArray();
 
                 // For each item in the api result array...
@@ -193,43 +209,51 @@ public class AddGame extends BaseActivity
                 spHiddenId = findViewById(R.id.spHiddenId);
 
 
-                // This array list will be used to populate an array adapter since JSON arrays
+                // These array lists will be used to populate an array adapter since JSON arrays
                 // can't be set to array adapters
-                ArrayList<String> list = new ArrayList<>();
-                ArrayList<String> otherList = new ArrayList<>();
+                ArrayList<String> nameList = new ArrayList<>();
+                ArrayList<String> gameIdList = new ArrayList<>();
 
-                // Add each name in the JSON array to the String array list
+                // Add each name and game ID to their respective lists
                 for (int i = 0; i < nameArray.length(); i++)
                 {
-                    list.add(nameArray.getString(i));
-                    otherList.add(idArray.getString(i));
+                    nameList.add(nameArray.getString(i));
+                    gameIdList.add(idArray.getString(i));
                 }
 
-                // Create an array adapter that will be used to populate the spinner with board
-                // game names
+                // These adapters are used to populate the board game spinner and hidden board
+                // game id spinner
                 ArrayAdapter<String> gameList = new ArrayAdapter<>(AddGame.this, android.R
-                        .layout.simple_expandable_list_item_1, list);
+                        .layout.simple_expandable_list_item_1, nameList);
 
                 ArrayAdapter<String> idList = new ArrayAdapter<String>(AddGame.this, android.R
-                        .layout.simple_expandable_list_item_1,otherList);
+                        .layout.simple_expandable_list_item_1,gameIdList);
 
-                // Set the adapter to the games spinner
+                // Set the adapters
                 spGames.setAdapter(gameList);
+
+                // We now have every board game ID in this spinner.
                 spHiddenId.setAdapter(idList);
-                editText.setText(spGames.getSelectedItem().toString());
 
                 spGames.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
                 {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
                     {
+                        // Set the edit text text to the selected board game
                         editText.setText(spGames.getSelectedItem().toString());
+
+                        // When the user selects a baord game from the baord game spinner the
+                        // hidden game ID spinner will also update to select the game ID at the
+                        // same position as the selected board game. This will allow us to
+                        // capture the game ID from the hidden spinner and store the ID in the
+                        // database.
                         spHiddenId.setSelection(spGames.getSelectedItemPosition());
                     }
 
                     @Override
+                    // This method does nothing but must be overridden along with onItemSelected.
                     public void onNothingSelected(AdapterView<?> parent) {
-
                     }
                 });
 

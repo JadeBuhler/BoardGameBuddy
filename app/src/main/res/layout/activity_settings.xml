@@ -90,7 +90,7 @@
 
     <Spinner
         android:id="@+id/spFontFamily"
-        android:layout_width="250dp"
+        android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_alignStart="@+id/spFontSize"
         android:layout_alignTop="@+id/txtFontFamily"

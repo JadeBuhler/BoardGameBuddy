@@ -3,7 +3,7 @@ package com.example.jade.boardgamebuddy;
 import android.graphics.Bitmap;
 
 /**
- * Author: Jade
+ * Author: Jade Buhler
  * Date: 11/26/2017.
  *
  * Defines a Player object.
@@ -16,11 +16,11 @@ public class Player
     private Bitmap avatarImage;
 
     /**
-      * Constructor
-      *
-      * Params:       name: The name of the player
-      *         avatarImage: The players chosen avatar
-      */
+     * Constructor
+     *
+     * @param name The name of the player
+     * @param avatarImage The players chosen avatar
+     */
     public Player(String name, Bitmap avatarImage)
     {
         this.name = name;
